@@ -10,8 +10,16 @@
 		}
 	}
 
+	// DELETE
 	if(isset($_GET['action']) && $_GET['action'] == 'delete') {
 		unset($_SESSION['bookmarks'][$_GET['name']]);
+		header("Location: index.php");
+	}
+
+	// CLEAR ALL
+	if(isset($_GET['action']) && $_GET['action'] == 'clear') {
+		session_unset();
+		session_destroy();
 		header("Location: index.php");
 	}
 ?>
