@@ -9,6 +9,11 @@
 			$_SESSION['bookmarks'] = Array($_POST['name'] => $_POST['url']);
 		}
 	}
+
+	if(isset($_GET['action']) && $_GET['action'] == 'delete') {
+		unset($_SESSION['bookmarks'][$_GET['name']]);
+		header("Location: index.php");
+	}
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +21,9 @@
 	<head>
 		<title>Bookmarks App</title>
 		<link rel="stylesheet" href="https://bootswatch.com/slate/bootstrap.min.css">
+		<style>
+			.delete {color: #fff;}
+		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse">
@@ -60,7 +68,11 @@
 					<?php if(isset($_SESSION['bookmarks'])) : ?>
 						<ul class="list-group">
 							<?php foreach($_SESSION['bookmarks'] as $name => $url) : ?>
-								<li class="list-group-item"><a href="<?php echo $url; ?>"><?php echo name; ?></a></li>
+								<li class="list-group-item">
+								<a href="<?php echo $url; ?>"><?php echo name; ?> 
+								<a class="delete" href="index.php?action=delete&name=<?php echo name; ?>">[X]</a>
+								</a>
+								</li>
 							<?php endforeach; ?>
 						</ul>
 					<?php endif; ?>
