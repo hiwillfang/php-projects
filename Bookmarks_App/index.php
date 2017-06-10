@@ -1,3 +1,16 @@
+<?php
+	// START SESSION
+	session_start();
+
+	if(isset($_POST['name'])) {
+		if(isset($_SESSION['bookmarks'])) {
+			$_SESSION['bookmarks'][$_POST['name']] = $_POST['url'];
+		} else {
+			$_SESSION['bookmarks'] = Array($_POST['name'] => $_POST['url']);
+		}
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -5,7 +18,7 @@
 		<link rel="stylesheet" href="https://bootswatch.com/slate/bootstrap.min.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+		<nav class="navbar navbar-inverse">
 		    <div class="container">
 		        <div class="navbar-header">
 		        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -31,10 +44,26 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-7">
-					
+					<form method="post" action="<?php $_SERVER['PHP_SELF']; ?>">
+						<div class="form-group">
+							<label>Website Name</label>
+							<input type="text" class="form-control" name="name">
+						</div>
+						<div class="form-group">
+							<label>Website URL</label>
+							<input type="text" class="form-control" name="url">
+						</div>
+						<input type="submit" value="Submit" class="btn btn-default">
+					</form>
 				</div>
 				<div class="col-md-5">
-					
+					<?php if(isset($_SESSION['bookmarks'])) : ?>
+						<ul class="list-group">
+							<?php foreach($_SESSION['bookmarks'] as $name => $url) : ?>
+								<li class="list-group-item"><a href="<?php echo $url; ?>"><?php echo name; ?></a></li>
+							<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
